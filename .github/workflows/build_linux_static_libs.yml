@@ -35,11 +35,13 @@ jobs:
             cp target/aarch64-unknown-linux-gnu/release/libsummarizer.a libsummarizer-aarch64-unknown-linux-gnu.a
             cp target/x86_64-unknown-linux-gnu/release/libsummarizer.a libsummarizer-x86_64-unknown-linux-gnu.a
 
-      - name: Upload static libraries as artifacts of the build
+      - name: Upload x86_64 static library as artifact of the build
         uses: actions/upload-artifact@v3
         with:
-          name: libsummarizer-aarch64-unknown-linux-gnu
-          path: libsummarizer-aarch64-unknown-linux-gnu.a
+          name: libsummarizer-x86_64-unknown-linux-gnu
+          path: libsummarizer-x86_64-unknown-linux-gnu.a
+
+      - name: Upload aarch64 static library as artifact of the build
         uses: actions/upload-artifact@v3
         with:
           name: libsummarizer-aarch64-unknown-linux-gnu
