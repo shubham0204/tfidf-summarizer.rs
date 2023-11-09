@@ -8,7 +8,11 @@ impl Summarizer {
         text: &str , 
         reduction_factor: f32
      ) -> String {
-        let mut sentences: Vec<&str> = Tokenizer::text_to_sentences( text ) ; 
+        let sentences_owned: Vec<String> = Tokenizer::text_to_sentences( text ) ; 
+        let mut sentences: Vec<&str> = sentences_owned
+                                                .iter()
+                                                .map( |s| s.as_str() )
+                                                .collect() ; 
         let mut tokens: Vec<Vec<&str>> = Vec::new() ; 
         for sentence in sentences.iter() {
             tokens.push( Tokenizer::sentence_to_tokens(sentence) ) 

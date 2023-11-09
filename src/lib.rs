@@ -15,7 +15,7 @@ pub extern "C" fn summarize( text: *const u8 , length: usize , reduction_factor:
                 std::mem::forget( c_summary );
                 c_summary_ptr as *const u8
             } , 
-            Err( _ ) => {
+            Err( e ) => {
                 let c_summary = CString::new( e.to_string() ).unwrap() ;
                 c_summary.as_ptr() as *const u8
             }

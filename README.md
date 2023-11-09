@@ -1,5 +1,7 @@
 # Text Summarization With TF-IDF In Rust
 
+> Implementation of an extractive text summarization system which uses TF-IDF scores of words present in the text to rank sentences and generate a summary
+
 ## Building the Debian package
 
 `src/lib.rs` defines a FFI (Foreign Function Interface) which accepts a string (`const* uint8_t` in C and `*const u8` in Rust) and returns the summarized version of the string, given the `reduction_factor` and `length` of the string. The length is expressed with `usize` in Rust and with `const uintptr_t` in C. Our goal is generate two resources for building a C library for our Rust project:

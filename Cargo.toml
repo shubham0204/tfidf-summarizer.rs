@@ -10,4 +10,4 @@ name = "summarizer"
 crate_type = [ "staticlib" ]
 
 [dependencies]
-regex = "1.9.5"
+punkt = "1.0.5"
