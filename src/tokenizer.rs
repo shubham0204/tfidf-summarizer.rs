@@ -52,22 +52,4 @@ impl Tokenizer {
         freq_map
     }
 
-    pub fn get_weighed_freq_map( freq_map: HashMap<&str,usize> ) -> HashMap<&str,f32> {
-        let mut cum_freq: f32 = 0.0 ; 
-        freq_map
-            .values()
-            .into_iter()
-            .for_each( | freq | { 
-                cum_freq += *freq as f32 ; 
-            } ) ; 
-        
-        let weighed_freq_map: HashMap<&str,f32> = freq_map
-            .into_iter()
-            .map( | ( k , v ) |  {
-                ( k , (v as f32) / cum_freq )
-            }
-            ).collect() ; 
-        weighed_freq_map
-    }
-
 }

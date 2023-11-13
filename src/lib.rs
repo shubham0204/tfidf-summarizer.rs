@@ -1,5 +1,5 @@
-pub mod tokenizer;
-pub mod summarizer;
+mod tokenizer;
+mod summarizer;
 
 use std::ffi::CString;
 use self::summarizer::Summarizer;

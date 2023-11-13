@@ -24,10 +24,10 @@ impl Summarizer {
             let tf: HashMap<&str,f32> = Summarizer::compute_term_frequency(tokenized_sentence) ; 
             let idf: HashMap<&str,f32> = Summarizer::compute_inverse_doc_frequency(tokenized_sentence, &tokens) ; 
             let mut tfidf_sum: f32 = 0.0 ; 
-            
             for word in tokenized_sentence.iter() {
                 tfidf_sum += tf.get( word ).unwrap() * idf.get( word ).unwrap() ; 
             }
+            tfidf_sum = tfidf_sum / ( tokenized_sentence.len() as f32 ) ;
             sentence_scores.insert( sentences[i] , tfidf_sum ) ; 
             i += 1
         }
