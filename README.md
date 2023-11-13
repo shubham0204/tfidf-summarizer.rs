@@ -34,6 +34,8 @@ The contents of the header `summarizer.h` are,
 #include <stdlib.h>
 
 const uint8_t *summarize(const uint8_t *text, uintptr_t length, float reduction_factor);
+
+const uint8_t *par_summarize(const uint8_t *text, uintptr_t length, float reduction_factor);
 ```
 
 Notice, how `const* u8` and `usize` were transformed to `const uint8_t` and `uintptr_t` respectively with ease. Without `cbindgen` performing this task, we would have to determine C equivalent data-types by ourselves which may lead to inconsistency errors.
