@@ -55,3 +55,51 @@ mod c_binding {
     }
 
 }
+
+#[cfg(feature="android")]
+mod android {
+
+    extern crate jni ; 
+    use jni::objects::{JClass, JString};
+    use jni::sys::jfloat;
+    use jni::JNIEnv;
+    use crate::summarize ;
+    use crate::par_summarize ;
+
+    #[no_mangle]
+    pub extern "C" fn Java_com_ml_shubham0204_Summarizer_summarize<'a>(
+        mut env: JNIEnv<'a>,
+        _: JClass<'a>,
+        text: JString<'a>,
+        reduction_factor: jfloat
+    ) -> JString<'a> {
+        let text: String = env
+            .get_string(&text)
+            .expect("Could not open text in summarize")
+            .into();
+        let summary = summarize( text.as_str() , reduction_factor ) ; 
+        let output = env
+            .new_string( summary )
+            .expect("Could not create output string");
+        output
+    }
+
+    #[no_mangle]
+    pub extern "C" fn Java_com_ml_shubham0204_Summarizer_parallelSummarize<'a>(
+        mut env: JNIEnv<'a>,
+        _: JClass<'a>,
+        text: JString<'a>,
+        reduction_factor: jfloat
+    ) -> JString<'a> {
+        let text: String = env
+            .get_string(&text)
+            .expect("Could not open text in par_summarize")
+            .into();
+        let summary = par_summarize( text.as_str() , reduction_factor ) ; 
+        let output = env
+            .new_string( summary )
+            .expect("Could not create output string");
+        output
+    }
+
+}

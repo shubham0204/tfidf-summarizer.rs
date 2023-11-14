@@ -23,3 +23,7 @@ crate_type = [ "staticlib" ]
 [dependencies]
 punkt = "1.0.5"
 rayon = "1.8"
+jni = { version = "0.21.1" , optional = true }
+
+[features]
+android = [ "dep:jni" ]

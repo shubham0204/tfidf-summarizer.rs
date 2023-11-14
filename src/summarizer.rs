@@ -39,8 +39,8 @@ impl Summarizer {
             sentence_scores.get(b).unwrap().total_cmp(sentence_scores.get(a).unwrap()) ) ; 
 
         let num_summary_sents = (reduction_factor * (sentences.len() as f32) ) as usize;
-        let summary = sentences[ 0..num_summary_sents ].join( ". " ) ;
-        
+        let summary = sentences[ 0..num_summary_sents ].join( " " ) ;
+
         summary
     }
 
