@@ -1,3 +1,6 @@
+
+![project-banner](https://github.com/shubham0204/tfidf-summarizer-rs/assets/41076823/f2855bcb-9573-4b70-9c38-7d4120511896)
+
 # Text Summarization With TF-IDF In Rust
 
 > Implementation of an extractive text summarization system which uses TF-IDF scores of words present in the text to rank sentences and generate a summary
