@@ -3,7 +3,7 @@ name = "tfidf-text-summarizer"
 description = "Implementation of an extractive text summarization system which uses TF-IDF scores of words present in the text to rank sentences and generate a summary"
 homepage = "https://github.com/shubham0204/tfidf-summarizer-rs"
 repository = "https://github.com/shubham0204/tfidf-summarizer-rs"
-version = "0.0.1"
+version = "0.0.2"
 edition = "2021"
 readme = "README.md"
 license-file = "LICENSE.md"
@@ -18,7 +18,7 @@ exclude = [
 
 [lib]
 name = "summarizer"
-crate_type = [ "staticlib" ]
+crate_type = [ "cdylib" , "staticlib" , "rlib" ]
 
 [dependencies]
 punkt = "1.0.5"

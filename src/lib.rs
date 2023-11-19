@@ -67,7 +67,7 @@ mod android {
     use crate::par_summarize ;
 
     #[no_mangle]
-    pub extern "C" fn Java_com_ml_shubham0204_Summarizer_summarize<'a>(
+    pub extern "C" fn Java_com_projects_ml_summarizer_Summarizer_summarize<'a>(
         mut env: JNIEnv<'a>,
         _: JClass<'a>,
         text: JString<'a>,
@@ -85,7 +85,7 @@ mod android {
     }
 
     #[no_mangle]
-    pub extern "C" fn Java_com_ml_shubham0204_Summarizer_parallelSummarize<'a>(
+    pub extern "C" fn Java_com_projects_ml_summarizer_Summarizer_parallelSummarize<'a>(
         mut env: JNIEnv<'a>,
         _: JClass<'a>,
         text: JString<'a>,

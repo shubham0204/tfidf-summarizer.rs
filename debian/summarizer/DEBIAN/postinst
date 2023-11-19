@@ -1,3 +1,0 @@
-#!/bin/bash
-cp ../libsummarizer.so /usr/local/lib/
-cp ../summarizer.h /usr/include/

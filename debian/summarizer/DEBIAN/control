@@ -1,5 +1,0 @@
-Package: Summarizer
-Version: 0.0.1
-Maintainer: Shubham Panchal
-Architecture: amd64
-Description: A text summarizer based on TF-IDF
