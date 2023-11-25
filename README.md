@@ -3,8 +3,8 @@
 
 # Text Summarization With TF-IDF In Rust
 
-[![tfidf-text-summarizer crate](https://img.shields.io/crates/v/rayon.svg)](https://crates.io/crates/tfidf-text-summarizer)
-[![tfidf-text-summarizer documentation](https://docs.rs/rayon/badge.svg)](https://docs.rs/tfidf-text-summarizer)
+[![tfidf-text-summarizer crate](https://img.shields.io/crates/v/tfidf-text-summarizer.svg)](https://crates.io/crates/tfidf-text-summarizer)
+[![tfidf-text-summarizer documentation](https://docs.rs/tfidf-text-summarizer/badge.svg)](https://docs.rs/tfidf-text-summarizer)
 
 > Implementation of an extractive text summarization system which uses TF-IDF scores of words present in the text to rank sentences and generate a summary
 
@@ -18,6 +18,17 @@
 ## Usage
 
 ### Usage in Rust
+
+Compiling this project requires Rust's nightly build (required by `punkt`, a dependency of this project) that can be added with [`rustup`](https://rust-lang.github.io/rustup/index.html),
+
+```
+$> rustup toolchain install nightly
+$> cargo new <crate-name>
+$> cd <crate-name>
+$> crate-name> rustup override set nightly
+```
+
+You may check the [official guides for Nightly builds](https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust) and [overrides](https://rust-lang.github.io/rustup/overrides.html)
 
 Add the dependency `tfidf-text-summarizer = "0.0.1"` in your project's `Cargo.toml`,
 
