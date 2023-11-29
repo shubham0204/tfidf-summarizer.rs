@@ -19,7 +19,7 @@ impl Tokenizer {
 
     /// Transform a `text` into a list of sentences
     /// It uses the popular Punkt sentence tokenizer from a Rust port: 
-    /// https://github.com/ferristseng/rust-punkt
+    /// <`/`>https://github.com/ferristseng/rust-punkt<`/`>
     pub fn text_to_sentences( text: &str ) -> Vec<String> {
         let english = TrainingData::english();
         let mut sentences: Vec<String> = Vec::new() ; 
@@ -44,12 +44,12 @@ impl Tokenizer {
     /// where keys are words and values are the frequencies of those words
     pub fn get_freq_map<'a>( words: &'a Vec<&'a str> ) -> HashMap<&'a str,usize> {
         let mut freq_map: HashMap<&str,usize> = HashMap::new() ; 
-        for word in words.iter() {
+        for word in words {
             if freq_map.contains_key( word ) {
                 freq_map
                     .entry( word )
                     .and_modify( | e | { 
-                        *e = *e + 1 
+                        *e += 1 ; 
                     } ) ; 
             }
             else {

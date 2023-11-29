@@ -22,25 +22,24 @@ impl Summarizer {
         let sentences_owned: Vec<String> = Tokenizer::text_to_sentences( text ) ; 
         let mut sentences: Vec<&str> = sentences_owned
                                                 .iter()
-                                                .map( |s| s.as_str() )
+                                                .map( String::as_str )
                                                 .collect() ; 
         let mut tokens: Vec<Vec<&str>> = Vec::new() ; 
-        for sentence in sentences.iter() {
-            tokens.push( Tokenizer::sentence_to_tokens(sentence) ) 
+        for sentence in &sentences {
+            tokens.push( Tokenizer::sentence_to_tokens(sentence) ) ; 
         }
 
         let mut sentence_scores: HashMap<&str,f32> = HashMap::new() ; 
-        let mut i: usize = 0;
-        for tokenized_sentence in tokens.iter() {
+       
+        for ( i , tokenized_sentence ) in tokens.iter().enumerate() {
             let tf: HashMap<&str,f32> = Summarizer::compute_term_frequency(tokenized_sentence) ; 
             let idf: HashMap<&str,f32> = Summarizer::compute_inverse_doc_frequency(tokenized_sentence, &tokens) ; 
             let mut tfidf_sum: f32 = 0.0 ; 
             
-            for word in tokenized_sentence.iter() {
+            for word in tokenized_sentence {
                 tfidf_sum += tf.get( word ).unwrap() * idf.get( word ).unwrap() ; 
             }
             sentence_scores.insert( sentences[i] , tfidf_sum ) ; 
-            i += 1
         }
 
         // Sort sentences by their scores
@@ -50,8 +49,7 @@ impl Summarizer {
         // Compute number of sentences to be included in the summary
         // and return the extracted summary
         let num_summary_sents = (reduction_factor * (sentences.len() as f32) ) as usize;
-        let summary = sentences[ 0..num_summary_sents ].join( " " ) ;
-        summary
+        sentences[ 0..num_summary_sents ].join( " " )
     }
 
     /// Extracts summary from the given `text` with length of the summary 
@@ -70,7 +68,7 @@ impl Summarizer {
         let sentences_owned: Vec<String> = Tokenizer::text_to_sentences( text ) ; 
         let mut sentences: Vec<&str> = sentences_owned
                                                 .iter()
-                                                .map( |s| s.as_str() )
+                                                .map( String::as_str )
                                                 .collect() ; 
         
         // Tokenize sentences in parallel with Rayon
@@ -93,10 +91,10 @@ impl Summarizer {
             let idf: HashMap<&str,f32> = Summarizer::compute_inverse_doc_frequency(tokenized_sentence, &tokens ) ; 
             let mut tfidf_sum: f32 = 0.0 ; 
             
-            for word in tokenized_sentence.iter() {
+            for word in tokenized_sentence {
                 tfidf_sum += tf.get( word ).unwrap() * idf.get( word ).unwrap() ; 
             }
-            tfidf_sum = tfidf_sum / (tokenized_sentence.len() as f32) ; 
+            tfidf_sum /= tokenized_sentence.len() as f32 ; 
             sentence_scores_ptr.lock().unwrap().insert( sentence , tfidf_sum ) ; 
         } ) ; 
         let sentence_scores = sentence_scores_ptr.lock().unwrap() ;
@@ -108,8 +106,7 @@ impl Summarizer {
         // Compute number of sentences to be included in the summary
         // and return the extracted summary
         let num_summary_sents = (reduction_factor * (sentences.len() as f32) ) as usize;
-        let summary = sentences[ 0..num_summary_sents ].join( ". " ) ;
-        summary
+        sentences[ 0..num_summary_sents ].join( ". " ) 
     }
 
     fn compute_term_frequency<'a>(
@@ -135,8 +132,8 @@ impl Summarizer {
 
         for word in tokenized_sentence {
             let mut word_count_in_docs: usize = 0 ; 
-            for doc in tokens.iter() {
-                word_count_in_docs += doc.iter().filter( |&token| token == word ).count()
+            for doc in tokens {
+                word_count_in_docs += doc.iter().filter( |&token| token == word ).count() ;
             }
             idf.insert( word , ( (num_docs) / (word_count_in_docs as f32) ).log10() ) ;
         }

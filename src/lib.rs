@@ -31,12 +31,12 @@ mod c_binding {
                     // hence transferring the ownership to the calling program
                     std::mem::forget( c_summary );
 
-                    c_summary_ptr as *const u8
+                    c_summary_ptr.cast::<u8>()
                 } , 
                 Err( e ) => {
                     // Return an empty string as a summary if error occurred
                     let c_summary = CString::new( e.to_string() ).unwrap() ;
-                    c_summary.as_ptr() as *const u8
+                    c_summary.as_ptr().cast::<u8>()
                 }
             }
         }    
@@ -53,13 +53,13 @@ mod c_binding {
 
                     // Eliminate `c_summary` from reference/ownership tracking
                     // hence transferring the ownership to the calling program
-                    std::mem::forget( c_summary );
+                    std::mem::forget( c_summary ) ;
                     
-                    c_summary_ptr as *const u8
+                    c_summary_ptr.cast::<u8>()
                 } , 
                 Err( e ) => {
                     let c_summary = CString::new( e.to_string() ).unwrap() ;
-                    c_summary.as_ptr() as *const u8
+                    c_summary.as_ptr().cast::<u8>()
                 }
             }
         }    
