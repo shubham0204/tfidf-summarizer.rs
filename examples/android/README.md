@@ -1,4 +1,4 @@
-# Compilation for Android and Writing FFI with JNI
+# Compiling for Android targets
 
 Shared libraries for use in Android apps can be compiled by installing specific toolchains and by using linkers 
 provided by Android NDK.

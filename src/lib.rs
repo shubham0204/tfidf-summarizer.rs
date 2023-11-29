@@ -11,6 +11,8 @@ pub fn par_summarize( text: &str , reduction_factor: f32 ) -> String {
     Summarizer::par_compute(text, reduction_factor)
 }
 
+/// functions exposing Rust methods as C interfaces
+/// These methods are accessible with the ABI (compiled object code)
 mod c_binding {
 
     use std::ffi::CString;
@@ -24,10 +26,15 @@ mod c_binding {
                     let summary = Summarizer::compute(text, reduction_factor) ;
                     let c_summary = CString::new( summary ).unwrap() ;
                     let c_summary_ptr = c_summary.as_ptr() ; 
+
+                    // Eliminate `c_summary` from reference/ownership tracking
+                    // hence transferring the ownership to the calling program
                     std::mem::forget( c_summary );
+
                     c_summary_ptr as *const u8
                 } , 
                 Err( e ) => {
+                    // Return an empty string as a summary if error occurred
                     let c_summary = CString::new( e.to_string() ).unwrap() ;
                     c_summary.as_ptr() as *const u8
                 }
@@ -43,7 +50,11 @@ mod c_binding {
                     let summary = Summarizer::par_compute(text, reduction_factor) ;
                     let c_summary = CString::new( summary ).unwrap() ;
                     let c_summary_ptr = c_summary.as_ptr() ; 
+
+                    // Eliminate `c_summary` from reference/ownership tracking
+                    // hence transferring the ownership to the calling program
                     std::mem::forget( c_summary );
+                    
                     c_summary_ptr as *const u8
                 } , 
                 Err( e ) => {
@@ -56,6 +67,8 @@ mod c_binding {
 
 }
 
+/// JNI methods for using in Android
+/// `Cargo.toml` has a conditional dependence of `jni` for this module
 #[cfg(feature="android")]
 mod android {
 

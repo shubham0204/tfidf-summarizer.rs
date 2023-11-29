@@ -7,6 +7,14 @@ pub struct Summarizer {}
 
 impl Summarizer {
 
+    /// Extracts summary from the given `text` with length of the summary 
+    /// controlled by `reduction_factor`
+    /// 
+    /// # Arguments
+    /// * `text`: A reference to the text/document that has to summarized
+    /// * `reduction_factor`: Proportion of sentences that have to be included in the summary. For instance, if `text` contains
+    /// 10 sentences and `reduction_factor=0.6`, then the extracted summary will contain 6 sentences (i.e. 60%)
+    /// 
     pub fn compute( 
         text: &str , 
         reduction_factor: f32
@@ -34,16 +42,27 @@ impl Summarizer {
             sentence_scores.insert( sentences[i] , tfidf_sum ) ; 
             i += 1
         }
-        
+
+        // Sort sentences by their scores
         sentences.sort_by( | a , b | 
             sentence_scores.get(b).unwrap().total_cmp(sentence_scores.get(a).unwrap()) ) ; 
 
+        // Compute number of sentences to be included in the summary
+        // and return the extracted summary
         let num_summary_sents = (reduction_factor * (sentences.len() as f32) ) as usize;
         let summary = sentences[ 0..num_summary_sents ].join( " " ) ;
-
         summary
     }
 
+    /// Extracts summary from the given `text` with length of the summary 
+    /// controlled by `reduction_factor`. It utilizes multiple threads to perform 
+    /// summarization faster on larger texts.
+    /// 
+    /// # Arguments
+    /// * `text`: A reference to the text/document that has to summarized
+    /// * `reduction_factor`: Proportion of sentences that have to be included in the summary. For instance, if `text` contains
+    /// 10 sentences and `reduction_factor=0.6`, then the extracted summary will contain 6 sentences (i.e. 60%)
+    /// 
     pub fn par_compute( 
         text: &str , 
         reduction_factor: f32
@@ -53,7 +72,9 @@ impl Summarizer {
                                                 .iter()
                                                 .map( |s| s.as_str() )
                                                 .collect() ; 
-
+        
+        // Tokenize sentences in parallel with Rayon
+        // Declare a thread-safe Vec<Vec<&str>> to hold the tokenized sentences
         let tokens_ptr: Arc<Mutex<Vec<Vec<&str>>>> = Arc::new( Mutex::new( Vec::new() ) ) ; 
         sentences.par_iter()
                  .for_each( |sentence| { 
@@ -62,6 +83,8 @@ impl Summarizer {
                  } ) ; 
         let tokens = tokens_ptr.lock().unwrap() ; 
 
+        // Compute scores for sentences in parallel
+        // Declare a thread-safe Hashmap<&str,f32> to hold the sentence scores
         let sentence_scores_ptr: Arc<Mutex<HashMap<&str,f32>>> = Arc::new( Mutex::new( HashMap::new() ) ) ; 
         tokens.par_iter()
               .zip( sentences.par_iter() )
@@ -77,13 +100,15 @@ impl Summarizer {
             sentence_scores_ptr.lock().unwrap().insert( sentence , tfidf_sum ) ; 
         } ) ; 
         let sentence_scores = sentence_scores_ptr.lock().unwrap() ;
-        
+
+        // Sort sentences by their scores
         sentences.sort_by( | a , b | 
             sentence_scores.get(b).unwrap().total_cmp(sentence_scores.get(a).unwrap()) ) ; 
 
+        // Compute number of sentences to be included in the summary
+        // and return the extracted summary
         let num_summary_sents = (reduction_factor * (sentences.len() as f32) ) as usize;
         let summary = sentences[ 0..num_summary_sents ].join( ". " ) ;
-
         summary
     }
 
