@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use punkt::{SentenceTokenizer, TrainingData};
 use punkt::params::Standard;
 
-static KEYWORDS: [ &str ; 127 ] = [ "i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", 
+static STOPWORDS: [ &str ; 127 ] = [ "i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", 
     "your", "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she", "her", "hers", "herself", 
     "it", "its", "itself", "they", "them", "their", "theirs", "themselves", "what", "which", "who", "whom", "this",
      "that", "these", "those", "am", "is", "are", "was", "were", "be", "been", "being", "have", "has", "had", "having", 
@@ -35,13 +35,15 @@ impl Tokenizer {
         let tokens: Vec<&str> = sentence.split_ascii_whitespace().collect() ; 
         let filtered_tokens: Vec<&str> = tokens
                                     .into_iter()
-                                    .filter( |token| !KEYWORDS.contains( &token.to_lowercase().as_str() ) )
+                                    .filter( |token| !STOPWORDS.contains( &token.to_lowercase().as_str() ) )
                                     .collect() ;
         filtered_tokens
     }
 
     /// Given a list of words, build a frequency map
     /// where keys are words and values are the frequencies of those words
+    /// This method will be used to compute the term frequencies of each word
+    /// present in a sentence
     pub fn get_freq_map<'a>( words: &'a Vec<&'a str> ) -> HashMap<&'a str,usize> {
         let mut freq_map: HashMap<&str,usize> = HashMap::new() ; 
         for word in words {
@@ -60,3 +62,4 @@ impl Tokenizer {
     }
 
 }
+

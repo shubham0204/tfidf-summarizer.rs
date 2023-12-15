@@ -3,15 +3,15 @@ name = "tfidf-text-summarizer"
 description = "Implementation of an extractive text summarization system which uses TF-IDF scores of words present in the text to rank sentences and generate a summary"
 homepage = "https://github.com/shubham0204/tfidf-summarizer-rs"
 repository = "https://github.com/shubham0204/tfidf-summarizer-rs"
-version = "0.0.2"
+version = "0.0.3"
 edition = "2021"
 readme = "README.md"
-license-file = "LICENSE.md"
+license-file = "LICENSE"
 keywords = [ "text-summarization" , "nlp" , "tf-idf" ]
 exclude = [
     ".github",
-    "debian",
-    "examples"
+    "examples" , 
+    "build_android.sh"
 ]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

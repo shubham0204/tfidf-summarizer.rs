@@ -109,6 +109,9 @@ impl Summarizer {
         sentences[ 0..num_summary_sents ].join( ". " ) 
     }
 
+    // Compute the term frequency of tokens present in the given sentence (tokenized)
+    // Term frequency TF of token 'w' is expressed as,
+    // TF(w) = (frequency of w in the sentence) / (total number of tokens in the sentence)
     fn compute_term_frequency<'a>(
         tokenized_sentence: &'a Vec<&str>
     ) -> HashMap<&'a str,f32> {
@@ -118,18 +121,18 @@ impl Summarizer {
         for (word , count) in words_frequencies {
             term_frequency.insert( word , ( count as f32 ) / ( num_tokens as f32 ) ) ; 
         }
-
         term_frequency
     }
 
+    // Compute the inverse document frequency of tokens present in the given sentence (tokenized)
+    // Inverse document frequency IDF of token 'w' is expressed as,
+    // IDF(w) = log( N / (Number of documents in which w appears) )
     fn compute_inverse_doc_frequency<'a>(
         tokenized_sentence: &'a Vec<&str> ,
         tokens: &'a Vec<Vec<&'a str>>
     ) -> HashMap<&'a str,f32> {
-
         let num_docs = tokens.len() as f32 ; 
         let mut idf: HashMap<&str,f32> = HashMap::new() ; 
-
         for word in tokenized_sentence {
             let mut word_count_in_docs: usize = 0 ; 
             for doc in tokens {
@@ -137,7 +140,6 @@ impl Summarizer {
             }
             idf.insert( word , ( (num_docs) / (word_count_in_docs as f32) ).log10() ) ;
         }
-
         idf
     }
 

@@ -8,12 +8,17 @@
 
 > Implementation of an extractive text summarization system which uses TF-IDF scores of words present in the text to rank sentences and generate a summary
 
+> [!NOTE]
+> Do read the [blog on TowardsDataScience](https://medium.com/towards-data-science/building-a-cross-platform-tfidf-text-summarizer-in-rust-7b05938f4507) 
+
 **Contents**
 
 1. [Usage](#usage)
     1. [Usage in Rust](#usage-in-rust)
     2. [Usage in C/C++ and with a Debian package](#usage-with-cc-codebases)
-    3. [Usage in Android]()
+    3. [Usage in Android](#usage-in-android)
+2. [Contributing](#contributing)
+3. [Useful External Resources](#useful-external-resources)
 
 ## Usage
 
@@ -150,5 +155,37 @@ The package `summarizer-v0.0.1-amd64.deb` will be generated in `debian/packages`
 
 ##### Installing the Debian package
 
+To install the Debian Package, use the `dpkg` utility,
+
+```
+$> sudo dpkg -i summarizer-v0.0.1-amd64.deb
+```
 
 ### Usage in Android
+
+We can compile the Rust code to shared libraries targeting `armeabi-v7a` and `arm64` architectures. After installing the Android NDK package and necessary toolchains with `rustup`, we can compile the `.so` libraries. See the `android` module in `src/lib.rs` for the JNI functions.
+
+See [`examples/android/README.md`](https://github.com/shubham0204/tfidf-summarizer.rs/tree/main/examples/android#compiling-for-android-targets) for more details.
+
+## Contributing
+
+The project can be improved on the following points (taken from the blog):
+
+- [ ] The current implementation requires the nightly build of Rust, only because of a single dependency punkt . punkt is a sentence tokenizer which is required to determine sentence boundaries in the text, following which other computations are made. If punkt can be built with stable Rust, the current implementation will no more require nightly Rust.
+
+- [ ] Adding newer metrics to rank sentences, especially which capture inter-sentence dependencies. TFIDF is not the most accurate scoring function and has its own limitations. Building sentence graphs and using them for scoring sentences has greatly enhance the overall quality of the extracted summary.
+
+- [ ] The summarizer has not been benchmarked against a known dataset. Rouge scores R1 , R2 and RL are frequently used to assess the quality of the generated summary against standard datasets like the New York Times dataset or the CNN Daily mail dataset. Measuring performance against standard benchmarks will provide developers more clarity and reliability towards the implementation.
+
+- [ ] Completing the Python implementation in `examples/python`.
+
+## Useful External Resources
+
+* [NLP — Text Summarization using NLTK: TF-IDF Algorithm](https://towardsdatascience.com/text-summarization-using-tf-idf-e64a0644ace3)
+
+* [Text Summarization by Ashin Shakya](https://medium.com/@ashins1997/text-summarization-f2542bc6a167)
+
+* [Automatic Extractive Text Summarization using TF-IDF by ASHNA JAIN on Voice Tech Podcast](https://medium.com/voice-tech-podcast/automatic-extractive-text-summarization-using-tfidf-3fc9a7b26f5)
+
+* [Text2Summary API for Android](https://github.com/shubham0204/Text2Summary-Android)
+
