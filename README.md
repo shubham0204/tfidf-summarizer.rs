@@ -9,7 +9,10 @@
 > Implementation of an extractive text summarization system which uses TF-IDF scores of words present in the text to rank sentences and generate a summary
 
 > [!NOTE]
-> Do read the [blog on TowardsDataScience](https://medium.com/towards-data-science/building-a-cross-platform-tfidf-text-summarizer-in-rust-7b05938f4507) 
+> Do read the [blog on TowardsDataScience](https://medium.com/towards-data-science/building-a-cross-platform-tfidf-text-summarizer-in-rust-7b05938f4507)
+
+![tfidf_repo_image](https://github.com/shubham0204/tfidf-summarizer.rs/assets/41076823/09c06763-0098-49d0-b9fe-ca7e9995527e)
+
 
 **Contents**
 
