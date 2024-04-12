@@ -192,3 +192,5 @@ The project can be improved on the following points (taken from the blog):
 
 * [Text2Summary API for Android](https://github.com/shubham0204/Text2Summary-Android)
 
+* [Reddit discussion on `tfidf-summarizer.rs`](https://www.reddit.com/r/rust/comments/18ipqsm/introducing_tfidfsummarizerrs_a_tfidfbased/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button)
+
